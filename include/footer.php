@@ -1,12 +1,3 @@
-
 <footer>
-
-<p>&copy; 
-    <?php 
-echo(date('Y'));?> Nfactory</p>
-
-
-
-
-
+    <p>&copy; <?php echo(date('Y'));?> NFactory</p>
 </footer>

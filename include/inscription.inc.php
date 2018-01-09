@@ -1,77 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Blog</title>
-<link rel="stylesheet" href="./assets/css/screen.css">
+<h1>Inscription</h1>
+<?php
+if(isset($_POST["formulaire"])) {
+    $tabErreur = array();
 
-</head>
-<body>
-  
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $mail = $_POST['mail'];
+    $mdp = $_POST['mdp'];
 
-<h1>INSCRIPTION</h1>
+    if($_POST["nom"] == "")
+        array_push($tabErreur, "Veuillez saisir votre nom");
 
-<?php 
+    if($_POST["prenom"] == "")
+        array_push($tabErreur, "Veuillez saisir votre prénom");
 
-if(isset($_POST['formulaire'])){
+    if($_POST["mail"] == "")
+        array_push($tabErreur, "Veuillez saisir votre e-mail");
 
-  echo("Je viens du formulaire");
+    if($_POST["mdp"] == "")
+        array_push($tabErreur, "Veuillez saisir un mot de passe");
 
-  $tabErreur = array();
+    if(count($tabErreur) != 0) {
+        $message = "<ul>";
 
-  $prenom = $_POST['penom'];
-  $mail = $_POST['mail'];
-  $mdp = $_POST['mdp'];
-
-  if($_POST["prenom"] == ""){
-
-    array_push($tabErreur, "Veuillez saisir votre nom");
-  }
-  if($_POST["mail"] == ""){
-    
-        array_push($tabErreur, "Veuillez saisir votre mail");
-      }
-      if($_POST["mdp"] == ""){
-        
-            array_push($tabErreur, "Veuillez saisir votre mdp");
-          }
-       
-      if (count($tabErreur) != 0){
-
-          $message = "<ul>";
-
-          for( $i = 0; $i < count($tabErreur); $i++) {
-
+        for($i = 0 ; $i < count($tabErreur) ; $i++) {
             $message .= "<li>" . $tabErreur[$i] . "</li>";
+        }
 
+        $message .= "</ul>";
+        echo($message);
 
-          }
+        include("./include/formInscription.php");
+    }
 
-          $message .= "</ul>";
-
-          echo($message);
-
-          
-
-      }
-      else {
+    else {
         $connexion = mysqli_connect("localhost", "root", "", "blog");
-        $requete = "INSER INTO t_users (NULL, $prenom,) "  
-      }
-
-      
-
-}
-else { 
-
-  echo("je viens d'ailleurs");
+        $requete = "INSERT INTO t_users (`ID_USER`, `USERNOM`, `USERPRENOM`, `USERMAIL`, `USERPASSWORD`) VALUES (NULL, $nom, $prenom, $mail, $mdp);";
+        var_dump($requete);
+    }
 }
 
-include("./include/forminscription.php");
-
-?>
-
-</body>
-</html>
+else {
+    echo("Je viens d'ailleurs");
+    include("./include/formInscription.php");
+}
